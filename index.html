@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cards empilhados com fotos</title>
+<style>
+  :root {
+    --topo: 90px;
+    --degrau: 22px;
+    --altura: 60vh;
+    --raio: 24px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  header, footer {
+    padding: 4rem 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Nenhum pai dos cards pode ter overflow hidden/auto */
+  .pilha {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    gap: 45vh;
+  }
+
+  .card {
+    position: sticky;
+    top: calc(var(--topo) + var(--i) * var(--degrau));
+    height: var(--altura);
+    border-radius: var(--raio);
+    padding: 2rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    isolation: isolate;
+    transform-origin: center top;
+    background: var(--fundo);   /* <- usa a foto definida abaixo */
+  }
+
+  /* ===== AS FOTOS ===== 
+     1ª parte: degradê escuro (deixa o texto legível)
+     2ª parte: a foto, com a posição ajustada para o rosto aparecer
+     "center 15%" = centralizada na horizontal, 15% a partir do topo na vertical */
+  .card:nth-child(1) {
+    --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
+             url("imagens/leandro1.jpg") center 15% / cover no-repeat;
+  }
+  .card:nth-child(2) {
+    --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
+             url("/TESTE/fotos/bieu.jpg") center 55% / cover no-repeat;
+  }
+  .card:nth-child(3) {
+    --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
+             url("/TESTE/fotos/paulin.jpg") center 10% / cover no-repeat;
+  }
+  
+
+  .card h2 { margin: 0 0 .5rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+  .card a  { color: inherit; }
+
+  /* Brilho em degradê na borda */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    border-radius: calc(var(--raio) + 3px);
+    background: linear-gradient(135deg, #a855f7, #22d3ee, #a855f7);
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .card:hover::before,
+  .card:focus-within::before { opacity: .85; }
+
+  /* Card de trás encolhe (navegadores com scroll-driven animation) */
+  @supports (animation-timeline: view()) {
+    @keyframes recua {
+      to { transform: scale(.80); filter: brightness(.75); }
+    }
+    .card {
+      animation: recua linear both;
+      animation-timeline: view();
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; }
+    .card::before { transition: none; }
+  }
+
+  @media (max-width: 600px) {
+    :root { --altura: 55vh; --topo: 70px; }
+    .card { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>HENRIQUE, LEANDRO</h1>
+  <h3>O cara que mais sofre com imobiliaria</h3>
+</header>
+
+<main class="pilha">
+  <article class="card" style="--i:0">
+    <h2></h2>
+    <a href="https://www.instagram.com/_leandrohwnrique?hvrq=MTgyaDIwNWtpNmR3ag==">Perfil do Instagram</a>
+  </article>
+
+  <article class="card" style="--i:1">
+    <h2></h2>
+    <a href="https://www.instagram.com/gabrielklocker_?gwpx=dW5sNHU4Z3U3djR1">Perfil do Instagram</a>
+  </article>
+
+  <article class="card" style="--i:2">
+    <h2></h2>
+    <a href="https://www.instagram.com/paulin_ger?avpt=enlla3ZsYmMwcXg1">Perfil do Instagram</a>
+  </article>
+
+
+<footer>
+  <p>ACABOU POHA.</p>
+</footer>
+
+</body>
+</html>
