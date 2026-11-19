@@ -14,29 +14,41 @@
 
   * { box-sizing: border-box; }
 
+  /* cor de reserva caso a foto demore ou não carregue */
+  html { background: #222; }
+
   body {
     margin: 0;
     min-height: 100dvh;
-    
-    background-image: url(https://github.com/LuGa2403/Teste/blob/main/WhatsApp%20Image%202026-11-18%20at%2019.22.59.jpeg?raw=true);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  }
+
+  /* FOTO DE FUNDO: camada fixa que funciona no celular e no navegador */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url("https://img2.lovecell.com.br/1c8e9d27dba675d9cb9d6753fafc76cc067085df88fff6dd2d862418ee22638e.webp") center / cover no-repeat;
+  }
+
+  /* se o rosto/assunto ficar cortado no celular, ajuste aqui */
+  @media (max-width: 768px) {
+    body::before { background-position: 60% center; }
   }
 
   header, footer {
     padding: 4rem 1.5rem;
     max-width: 800px;
     margin: 0 auto;
+  }
 
-    h1, h3 {
-  width: fit-content;
-  background: #fff;
-  padding: 0.1em 0.1em;
-  border-radius: 0.3em;
-  margin: 0 0 0.5rem;
-}
+  header h1,
+  header h3 {
+    width: fit-content;
+    background: #fff;
+    padding: 0.1em 0.2em;
+    border-radius: 0.3em;
+    margin: 0 0 0.5rem;
   }
 
   /* Nenhum pai dos cards pode ter overflow hidden/auto */
@@ -60,17 +72,13 @@
     justify-content: flex-end;
     isolation: isolate;
     transform-origin: center top;
-    background: var(--fundo);   /* <- usa a foto definida abaixo */
+    background: var(--fundo);
   }
 
-  /* ===== AS FOTOS ===== 
-     1ª parte: degradê escuro (deixa o texto legível)
-     2ª parte: a foto, com a posição ajustada para o rosto aparecer
-     "center 15%" = centralizada na horizontal, 15% a partir do topo na vertical */
+  /* ===== AS FOTOS ===== */
   .card:nth-child(1) {
     --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
-             url("https://github.com/LuGa2403/Teste/blob/main/leandro.jpg?raw=true")
- center 15% / cover no-repeat;
+             url("https://github.com/LuGa2403/Teste/blob/main/leandro.jpg?raw=true") center 15% / cover no-repeat;
   }
   .card:nth-child(2) {
     --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
@@ -80,7 +88,6 @@
     --fundo: linear-gradient(transparent 50%, rgba(0,0,0,.65)),
              url("https://github.com/LuGa2403/Teste/blob/main/paulin.jpg?raw=true") center 10% / cover no-repeat;
   }
-  
 
   .card h2 { margin: 0 0 .5rem; font-size: clamp(1.4rem, 3vw, 2rem); }
   .card a  { color: inherit; }
@@ -145,10 +152,10 @@
     <h2></h2>
     <a href="https://www.instagram.com/paulin_ger?avpt=enlla3ZsYmMwcXg1">Perfil do Instagram</a>
   </article>
-
+</main>
 
 <footer>
-  <p>ACABOU POHA.</p>
+  <p>The end.</p>
 </footer>
 
 </body>
